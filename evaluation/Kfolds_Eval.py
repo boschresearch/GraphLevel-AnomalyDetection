@@ -134,7 +134,7 @@ class KFoldEval:
                     dataset = self.dataset_class()
                     train_data, val_data = dataset.get_model_selection_fold(fold_k,cls)
                     test_data = dataset.get_test_fold(fold_k)
-                    print(f'fold/cls: {fold_k}/{cls}')
+                    print(f'fold/normal cls: {fold_k}/{cls}')
                     val_auc, test_auc, test_ap,test_f1,scores,labels= experiment.run_test([train_data,val_data,test_data],cls, logger)
                     print(f'Final training run {i + 1}, val auc:{val_auc},test auc:{test_auc}, test f1:{test_f1}')
                     saved_results['scores_' + str(i)] = scores.tolist()
@@ -149,7 +149,7 @@ class KFoldEval:
                 test_f1 = sum(test_f1_list) / num_repeat
                 if best_config['save_scores']:
                     save_path = os.path.join(self._NESTED_FOLDER, self._FOLD_BASE + str(fold_k),
-                                                   str(cls)+'scores_labels.json')
+                                                   str(cls)+'_scores_labels.json')
                     json.dump(saved_results, open(save_path, 'w'))
                 logger.log('End of Outer fold. Normal cls:'+str(cls)+' VAL auc: ' + str(val_auc)
                            +' TS auc: ' + str(test_auc) + ' TS f1: ' + str(test_f1))
