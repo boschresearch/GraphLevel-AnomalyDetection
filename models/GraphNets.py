@@ -89,9 +89,7 @@ class GIN(torch.nn.Module):
             self.nns.append(Sequential(Linear(input_emb_dim, hidden_dim, bias=bias), ReLU(),
                                        Linear(hidden_dim, hidden_dim, bias=bias)))
             self.convs.append(GINConv(self.nns[-1], train_eps=bias))  # Eq. 4.2
-            if self.use_norm == 'bn':
-                self.norms.append(BatchNorm1d(hidden_dim, affine=True))
-            elif self.use_norm == 'gn':
+            if self.use_norm == 'gn':
                 self.norms.append(GraphNorm(hidden_dim, True))
             self.projs.append(MLP(hidden_dim, hidden_dim, dim_targets, bias))
 
@@ -105,11 +103,8 @@ class GIN(torch.nn.Module):
         z_cat = []
 
         for layer in range(self.num_layers):
-
             x = self.convs[layer](x, edge_index)
-            if self.use_norm == 'bn':
-                x = self.norms[layer](x)
-            elif self.use_norm == 'gn':
+            if self.use_norm == 'gn':
                 x = self.norms[layer](x, graph)
             x = F.relu(x)
             z = self.projs[layer](x)
@@ -151,9 +146,7 @@ class GIN_classifier(nn.Module):
             self.nns.append(Sequential(Linear(input_emb_dim, hidden_dim, bias=bias), ReLU(),
                                        Linear(hidden_dim, hidden_dim, bias=bias)))
             self.convs.append(GINConv(self.nns[-1], train_eps=bias))  # Eq. 4.2
-            if self.use_norm == 'bn':
-                self.norms.append(BatchNorm1d(hidden_dim, affine=True))
-            elif self.use_norm == 'gn':
+            if self.use_norm == 'gn':
                 self.norms.append(GraphNorm(hidden_dim, True))
             self.projs.append(Linear(hidden_dim, dim_targets, bias=bias))
 
