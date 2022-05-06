@@ -162,10 +162,7 @@ class GIN_classifier(nn.Module):
         y_pred = 0
         for layer in range(self.num_layers):
             x = self.convs[layer](x, edge_index)
-
-            if self.use_norm == 'bn':
-                x = self.norms[layer](x)
-            elif self.use_norm == 'gn':
+            if self.use_norm == 'gn':
                 x = self.norms[layer](x, graph)
             x = F.relu(x)
             y = F.dropout(self.projs[layer](self.pooling(x,batch)),p=self.dropout)
