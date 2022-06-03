@@ -2,7 +2,7 @@
 
 This is the companion code for a PyTorch implementation of graph-level anomaly detection methods described in the paper
 **Raising the Bar in Graph-level Anomaly Detection** by Chen Qiu et al. 
-The paper is published in IJCAI 2022 and can be found here https://arxiv.org/abs/********. 
+The paper is published in IJCAI 2022 and can be found here https://arxiv.org/abs/2205.13845. 
 The code allows the users to reproduce and extend the results reported in the study. Please cite the
 above paper when reporting, reproducing or extending the results.
 
